@@ -1749,6 +1749,17 @@ void indent_text()
                   }
                }
             }
+            LOG_FMT(LINDENT2,
+                    "%s(%d): ns_indent_ignore: %zu pc_brace_level %zu/%zu/%zu col %zu size %zu\n",
+                    __func__, __LINE__,
+                    namespace_indent_to_ignore,
+                    pc->GetBraceLevel(),
+                    pc->GetColumn(),
+                    pc->GetColumnIndent(),
+                    indent_column,
+                    indent_size);
+
+
             // Issue # 1296
             frm.top().SetBraceIndent(1 + (pc->GetBraceLevel() - namespace_indent_to_ignore) * indent_size);
             indent_column_set(frm.top().GetBraceIndent());
