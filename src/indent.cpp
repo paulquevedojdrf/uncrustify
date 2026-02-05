@@ -1634,7 +1634,7 @@ void indent_text()
                 parent = frm.prev(++idx);
             }
             if (idx == 2) {
-                opening_col = pc->GetBraceLevel() * indent_size;
+                opening_col = 1 + (pc->GetBraceLevel() * indent_size);
             }
 
             frm.top().SetBraceIndent(opening_col);
