@@ -1624,9 +1624,13 @@ void indent_text()
             LOG_FMT(LINDENT2, "%s(%d): orig line is %zu, orig col is %zu opening line is %zu\n",
                     __func__, __LINE__, pc->GetOrigLine(), pc->GetOrigCol(), opening_line);
 
+
             while (parent.GetOpenLine() == opening_line && parent.GetOpenChunk() != nullptr) {
                 LOG_FMT(LINDENT2, "%s(%d) parent(%u) text %s orig col %zu\n",
                         __func__, __LINE__, idx, parent.GetOpenChunk()->Text(), parent.GetOpenChunk()->GetOrigCol());
+                LOG_FMT(LINDENT2, "%s(%d): parent col %zu indent %zu brace %zu\n",
+                        __func__, __LINE__,
+                        parent.GetOpenCol(), parent.GetIndent(), parent.GetBraceIndent());
                 opening_col = parent.GetOpenChunk()->GetOrigCol();
                 parent = frm.prev(++idx);
             }
