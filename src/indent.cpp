@@ -1629,14 +1629,16 @@ void indent_text()
                     parent.GetOpenChunk() != nullptr);
 
             while (parent.GetOpenLine() == opening_line && parent.GetOpenChunk() != nullptr) {
-                LOG_FMT(LINDENT2, "parent[%u] text %s open line %zu orig line %zu orig col %zu\n",
+                LOG_FMT(LINDENT2, "parent[%u] text %s open line %zu orig line %zu orig col %zu/%zu\n",
                         idx,
                         parent.GetOpenChunk()->Text(),
                         parent.GetOpenLine(),
                         parent.GetOpenChunk()->GetOrigLine(),
-                        parent.GetOpenChunk()->GetOrigCol());
+                        parent.GetOpenChunk()->GetOrigCol(),
+                        parent.GetOpenChunk()->GetOrigColEnd());
                 opening_col = parent.GetOpenChunk()->GetOrigCol();
                 parent = frm.prev(++idx);
+                LOG_FMT(LINDENT2, "next parent? %u line %zu\n", parent.GetOpenChunk() != nullptr, parent.GetOpenLine());
             }
 
             frm.top().SetBraceIndent(opening_col);
