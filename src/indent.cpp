@@ -1764,13 +1764,13 @@ void indent_text()
                     indent_size);
 
                 LOG_FMT(LINDENT2,
-                    "%s(%d): parent text %s col %zu/%zu/%zu line %zu\n",
+                    "%s(%d): parent-parent text %s col %zu/%zu/%zu line %zu\n",
                     __func__, __LINE__,
-                    pc->GetParent()->Text(),
-                    pc->GetParent()->GetColumn(),
-                    pc->GetParent()->GetOrigCol(),
-                    pc->GetParent()->GetOrigColEnd(),
-                    pc->GetParent()->GetOrigLine());
+                    pc->GetParent()->GetParent()->Text(),
+                    pc->GetParent()->GetParent()->GetColumn(),
+                    pc->GetParent()->GetParent()->GetOrigCol(),
+                    pc->GetParent()->GetParent()->GetOrigColEnd(),
+                    pc->GetParent()->GetParent()->GetOrigLine());
 
 
             // Issue # 1296
