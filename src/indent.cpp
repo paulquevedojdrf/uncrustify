@@ -1766,25 +1766,34 @@ void indent_text()
             LOG_FMT(LINDENT2,
                     "%s(%d): parent-parent text %s col %zu/%zu/%zu line %zu\n",
                     __func__, __LINE__,
-                    pc->GetParent()->GetParent()->Text(),
-                    pc->GetParent()->GetParent()->GetColumn(),
-                    pc->GetParent()->GetParent()->GetOrigCol(),
-                    pc->GetParent()->GetParent()->GetOrigColEnd(),
-                    pc->GetParent()->GetParent()->GetOrigLine());
+                    pc->GetParent()->Text(),
+                    pc->GetParent()->GetColumn(),
+                    pc->GetParent()->GetOrigCol(),
+                    pc->GetParent()->GetOrigColEnd(),
+                    pc->GetParent()->GetOrigLine());
 
-            auto parent = pc->GetParent();
-            auto colStart = pc->GetOrigCol();
-            while (parent && parent->GetOrigLine() == pc->GetOrigLine()) {
-                colStart = parent->GetOrigCol();
-                LOG_FMT(LINDENT2,
-                        "%s(%d): fallback to parent col %zu/%zu text %s line is %zu\n",
-                        __func__, __LINE__,
-                        parent->GetOrigCol(),
-                        parent->GetColumn(),
-                        parent->Text(),
-                        parent->GetOrigLine());
+            auto tgtLine = pc->GetParent()->GetOrigLine();
+            auto tgtCol = pc->GetParent()->GetOrigCol();
 
-                parent = parent->GetParent();
+            for (auto idx = 1; idx < 10; idx++) {
+                auto parent = frm.prev(idx);
+
+                if (parent.GetOpenChunk() == nullptr) {
+                    LOG_FMT(LINDENT2, "parent_%u openLine %zu no chunk\n",
+                            idx, parent.GetOpenLine());
+                    break;
+                }
+                LOG_FMT(LINDENT2, "parent_%u text %s openLine %zu/%zu col %zu tgt %zu/%zu\n",
+                        idx,
+                        parent.GetOpenChunk()->Text(),
+                        parent.GetOpenLine(),
+                        parent.GetOpenChunk()->GetOrigLine(),
+                        parent.GetOpenChunk()->GetOrigCol(),
+                        tgtLine, tgtCol);
+                if (parent.GetOpenLine() != tgtLine) {
+                    break;
+                }
+                tgtCol = parent.GetOpenChunk()->GetOrigCol();
             }
 
 
