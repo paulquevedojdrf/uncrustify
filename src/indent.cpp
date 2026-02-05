@@ -1643,7 +1643,7 @@ void indent_text()
                         parent.GetOpenChunk()->GetOrigLine(),
                         parent.GetOpenChunk()->GetOrigCol());
                 opening_col = parent.GetOpenChunk()->GetOrigCol();
-                idx++;
+                parent = frm.prev(++idx);
             }
 
             frm.top().SetBraceIndent(opening_col);
