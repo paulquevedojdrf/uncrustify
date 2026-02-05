@@ -1629,6 +1629,9 @@ void indent_text()
                     pc->GetOrigLine(), pc->GetOrigCol(), pc->GetOrigColEnd(),
                     pc->GetColumn(), pc->GetColumnIndent(),
                     frm.top().GetIndent(), frm.top().GetOpenCol());
+            LOG_FMT(LINDENT2,
+                    "prev: indent %zu col %zu line %zu\n",
+                    frm.prev().GetIndent(), frm.prev().GetOpenCol(), frm.prev().GetOpenLine());
 
             for (auto it = frm.rbegin(); it != frm.rend() && tail->IsNullChunk(); ++it)
             {
