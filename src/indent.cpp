@@ -1613,7 +1613,7 @@ void indent_text()
                  && options::indent_cpp_lambda_from_start_of_opening_line()
                  && (pc->GetParentType() == CT_CPP_LAMBDA))
          {
-            // test example cpp:30756
+            // test example cpp:61000
             log_rule_B("indent_cpp_lambda_from_start_of_opening_line");
 
             int idx = 1;
@@ -1621,24 +1621,14 @@ void indent_text()
             auto opening_line = parent.GetOpenLine();
             auto opening_col = pc->GetOrigCol();
 
-            LOG_FMT(LINDENT2,
-                    "pc %zu/%zu paren %zu/%zu open %zu/%zu chunk? %u\n",
-                    pc->GetOrigLine(), pc->GetOrigCol(),
-                    pc->GetParent()->GetOrigLine(), pc->GetParent()->GetOrigCol(),
-                    opening_line, opening_col,
-                    parent.GetOpenChunk() != nullptr);
+            LOG_FMT(LINDENT2, "%s(%d): orig line is %zu, orig col is %zu opening line is %zu\n",
+                    __func__, __LINE__, pc->GetOrigLine(), pc->GetOrigCol(), opening_line);
 
             while (parent.GetOpenLine() == opening_line && parent.GetOpenChunk() != nullptr) {
-                LOG_FMT(LINDENT2, "parent[%u] text %s open line %zu orig line %zu orig col %zu/%zu\n",
-                        idx,
-                        parent.GetOpenChunk()->Text(),
-                        parent.GetOpenLine(),
-                        parent.GetOpenChunk()->GetOrigLine(),
-                        parent.GetOpenChunk()->GetOrigCol(),
-                        parent.GetOpenChunk()->GetOrigColEnd());
+                LOG_FMT(LINDENT2, "%s(%d) parent(%u) text %s orig col %zu\n",
+                        __func__, __LINE__, idx, parent.GetOpenChunk()->Text(), parent.GetOpenChunk()->GetOrigCol());
                 opening_col = parent.GetOpenChunk()->GetOrigCol();
                 parent = frm.prev(++idx);
-                LOG_FMT(LINDENT2, "next parent? %u line %zu\n", parent.GetOpenChunk() != nullptr, parent.GetOpenLine());
             }
 
             frm.top().SetBraceIndent(opening_col);
