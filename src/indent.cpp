@@ -1619,20 +1619,22 @@ void indent_text()
             int idx = 1;
             auto parent = frm.prev(idx);
             auto opening_line = parent.GetOpenLine();
-            auto opening_col = pc->GetOrigCol();
+            auto opening_col = parent.GetOpenCol();
 
-            LOG_FMT(LINDENT2, "%s(%d): orig line is %zu, orig col is %zu opening line is %zu\n",
-                    __func__, __LINE__, pc->GetOrigLine(), pc->GetOrigCol(), opening_line);
+            LOG_FMT(LINDENT2, "%s(%d): orig line is %zu, orig col is %zu opening line %zu opening col %zu\n",
+                    __func__, __LINE__, pc->GetOrigLine(), pc->GetOrigCol(), opening_line, opening_col);
 
-
-            while (parent.GetOpenLine() == opening_line && parent.GetOpenChunk() != nullptr) {
+            while (parent.GetOpenLine() == opening_line) {
                 LOG_FMT(LINDENT2, "%s(%d) parent(%u) text %s orig col %zu\n",
-                        __func__, __LINE__, idx, parent.GetOpenChunk()->Text(), parent.GetOpenChunk()->GetOrigCol());
+                        __func__, __LINE__, idx, parent.GetOpenChunk()->Text(), parent.GetOpenCol());
                 LOG_FMT(LINDENT2, "%s(%d): parent col %zu indent %zu brace %zu\n",
                         __func__, __LINE__,
                         parent.GetOpenCol(), parent.GetIndent(), parent.GetBraceIndent());
                 opening_col = parent.GetOpenChunk()->GetOrigCol();
                 parent = frm.prev(++idx);
+            }
+            if (idx == 2) {
+                opening_col = pc->GetBraceLevel() * indent_size;
             }
 
             frm.top().SetBraceIndent(opening_col);
