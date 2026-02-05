@@ -1797,8 +1797,11 @@ void indent_text()
             }
 
 
+            LOG_FMT(LINDENT2, "set braceIndent %zu\n", 1 + (pc->GetBraceLevel() - namespace_indent_to_ignore) * indent_size);
+
             // Issue # 1296
-            frm.top().SetBraceIndent(1 + (pc->GetBraceLevel() - namespace_indent_to_ignore) * indent_size);
+            //frm.top().SetBraceIndent(1 + (pc->GetBraceLevel() - namespace_indent_to_ignore) * indent_size);
+            frm.top().SetBraceIndent(tgtCol);
             indent_column_set(frm.top().GetBraceIndent());
             //frm.top().SetIndent(indent_column + indent_size);
             frm.top().SetIndent(tgtCol + indent_size);
