@@ -14,7 +14,9 @@ int main()
         code();
     };
 
-    auto lambda4 = [&]() { return 0; };
+    auto lambda4 = [&]() {
+        return 0;
+    };
 
     EXPECT_CALL(*foo, bar)
         .WillOnce(InvokeWithoutArgs([&]() {
