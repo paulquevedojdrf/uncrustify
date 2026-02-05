@@ -1616,25 +1616,18 @@ void indent_text()
             // test example cpp:30756
             log_rule_B("indent_cpp_lambda_from_start_of_opening_line");
 
-            size_t namespace_indent_to_ignore = 0;                   // Issue #1813
-            log_rule_B("indent_namespace");
-
-            if (!options::indent_namespace())
-            {
-               for (auto i = frm.rbegin(); i != frm.rend(); ++i)
-               {
-                  if (i->GetNsCount())
-                  {
-                     namespace_indent_to_ignore = i->GetNsCount();
-                     break;
-                  }
-               }
-            }
-
             int idx = 1;
             auto parent = frm.prev(idx);
             auto opening_line = parent.GetOpenLine();
             auto opening_col = pc->GetOrigCol();
+
+            LOG_FMT(LINDENT2,
+                    "pc %zu/%zu paren %zu/%zu open %zu/%zu chunk? %u\n",
+                    pc->GetOrigLine(), pc->GetOrigCol(),
+                    pc->GetParent()->GetOrigLine(), pc->GetParent()->GetOrigCol(),
+                    opening_line, opening_col,
+                    parent.GetOpenChunk() != nullptr);
+
             while (parent.GetOpenLine() == opening_line && parent.GetOpenChunk() != nullptr) {
                 LOG_FMT(LINDENT2, "parent[%u] text %s open line %zu orig line %zu orig col %zu\n",
                         idx,
