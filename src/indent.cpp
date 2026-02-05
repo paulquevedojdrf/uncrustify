@@ -1772,8 +1772,8 @@ void indent_text()
                     pc->GetParent()->GetOrigColEnd(),
                     pc->GetParent()->GetOrigLine());
 
-            auto tgtLine = pc->GetParent()->GetOrigLine();
-            auto tgtCol = pc->GetParent()->GetOrigCol();
+            auto tgtLine = frm.prev().GetOpenLine();
+            auto tgtCol = frm.prev().GetOpenChunk()->GetOrigCol();
 
             for (auto idx = 1; idx < 10; idx++) {
                 auto parent = frm.prev(idx);
@@ -1801,7 +1801,7 @@ void indent_text()
             frm.top().SetBraceIndent(1 + (pc->GetBraceLevel() - namespace_indent_to_ignore) * indent_size);
             indent_column_set(frm.top().GetBraceIndent());
             //frm.top().SetIndent(indent_column + indent_size);
-            frm.top().SetIndent(tgtCol);
+            frm.top().SetIndent(tgtCol + indent_size);
             log_indent();
             frm.top().SetIndentTab(frm.top().GetIndent());
             frm.top().SetIndentTmp(frm.top().GetIndent());
