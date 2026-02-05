@@ -1763,7 +1763,7 @@ void indent_text()
                     indent_column,
                     indent_size);
 
-                LOG_FMT(LINDENT2,
+            LOG_FMT(LINDENT2,
                     "%s(%d): parent-parent text %s col %zu/%zu/%zu line %zu\n",
                     __func__, __LINE__,
                     pc->GetParent()->GetParent()->Text(),
@@ -1771,6 +1771,21 @@ void indent_text()
                     pc->GetParent()->GetParent()->GetOrigCol(),
                     pc->GetParent()->GetParent()->GetOrigColEnd(),
                     pc->GetParent()->GetParent()->GetOrigLine());
+
+            auto parent = pc->GetParent();
+            auto colStart = pc->GetOrigCol();
+            while (parent && parent->GetOrigLine() == pc->GetOrigLine()) {
+                colStart = parent->GetOrigCol();
+                LOG_FMT(LINDENT2,
+                        "%s(%d): fallback to parent col %zu/%zu text %s line is %zu\n",
+                        __func__, __LINE__,
+                        parent->GetOrigCol(),
+                        parent->GetColumn(),
+                        parent->Text(),
+                        parent->GetOrigLine());
+
+                parent = parent->GetParent();
+            }
 
 
             // Issue # 1296
