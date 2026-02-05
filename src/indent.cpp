@@ -1800,7 +1800,8 @@ void indent_text()
             // Issue # 1296
             frm.top().SetBraceIndent(1 + (pc->GetBraceLevel() - namespace_indent_to_ignore) * indent_size);
             indent_column_set(frm.top().GetBraceIndent());
-            frm.top().SetIndent(indent_column + indent_size);
+            //frm.top().SetIndent(indent_column + indent_size);
+            frm.top().SetIndent(tgtCol);
             log_indent();
             frm.top().SetIndentTab(frm.top().GetIndent());
             frm.top().SetIndentTmp(frm.top().GetIndent());
