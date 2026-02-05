@@ -1750,14 +1750,27 @@ void indent_text()
                }
             }
             LOG_FMT(LINDENT2,
-                    "%s(%d): ns_indent_ignore: %zu pc_brace_level %zu/%zu/%zu col %zu size %zu\n",
+                    "%s(%d): ns_indent_ignore: %zu pc_brace_level %zu/%zu/%zu pc_orig %zu/%zu/%zu/%zu col %zu size %zu\n",
                     __func__, __LINE__,
                     namespace_indent_to_ignore,
                     pc->GetBraceLevel(),
                     pc->GetColumn(),
                     pc->GetColumnIndent(),
+                    pc->GetOrigCol(),
+                    pc->GetOrigColEnd(),
+                    pc->GetOrigLine(),
+                    pc->GetOrigPrevSp(),
                     indent_column,
                     indent_size);
+
+                LOG_FMT(LINDENT2,
+                    "%s(%d): parent text %s col %zu/%zu/%zu line %zu\n",
+                    __func__, __LINE__,
+                    pc->GetParent()->Text(),
+                    pc->GetParent()->GetColumn(),
+                    pc->GetParent()->GetOrigCol(),
+                    pc->GetParent()->GetOrigColEnd(),
+                    pc->GetParent()->GetOrigLine());
 
 
             // Issue # 1296
