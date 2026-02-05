@@ -1622,6 +1622,14 @@ void indent_text()
                               && frm_prev != frm_prev->GetClosingParen());
             bool  linematch = true;
 
+            LOG_FMT(LINDENT2,
+                    "%s(%d): text %s orig line is %zu, orig_col %zu-%zu, new_col %zu-%zu, top_indent %zu, top_open_col %zu\n",
+                    __func__, __LINE__,
+                    pc->Text(),
+                    pc->GetOrigLine(), pc->GetOrigCol(), pc->GetOrigColEnd(),
+                    pc->GetColumn(), pc->GetColumnIndent(),
+                    frm.top().GetIndent(), frm.top().GetOpenCol());
+
             for (auto it = frm.rbegin(); it != frm.rend() && tail->IsNullChunk(); ++it)
             {
                if (it->GetOpenChunk() != frm.top().GetOpenChunk())
@@ -1706,13 +1714,6 @@ void indent_text()
                }
             }
             indent_column_set(frm.top().GetBraceIndent());
-            LOG_FMT(LINDENT2,
-                    "%s(%d): text %s orig line is %zu, orig_col %zu-%zu, new_col %zu-%zu, top_indent %zu, top_open_col %zu\n",
-                    __func__, __LINE__,
-                    pc->Text(),
-                    pc->GetOrigLine(), pc->GetOrigCol(), pc->GetOrigColEnd(),
-                    pc->GetColumn(), pc->GetColumnIndent(),
-                    frm.top().GetIndent(), frm.top().GetOpenCol());
 
             frm.top().SetIndent(indent_column + indent_size);
             log_indent();
