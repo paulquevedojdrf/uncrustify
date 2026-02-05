@@ -1761,6 +1761,12 @@ void indent_text()
             frm.prev().SetIndentTmp(frm.top().GetIndentTmp());
             log_indent_tmp();
          }
+         else if (  language_is_set(lang_flag_e::LANG_CPP)
+                 && (pc->GetParentType() == CT_CPP_LAMBDA))
+         {
+            // test example cpp:30756
+            log_rule_B("indent_cpp_lambda_nope!");
+         }
          else if (  (  language_is_set(lang_flag_e::LANG_CS)
                     || language_is_set(lang_flag_e::LANG_JAVA))
                  && options::indent_cs_delegate_brace()
